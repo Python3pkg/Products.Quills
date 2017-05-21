@@ -6,7 +6,7 @@ $Id$
 #if __name__ == "__main__":
 #    execfile(os.path.join(sys.path[0], "framework.py"))
 
-from base import QuillsTestCase
+from .base import QuillsTestCase
 
 from Products.CMFCore.utils import getToolByName
 
@@ -21,7 +21,7 @@ class TestPortalTypes(QuillsTestCase):
             self.failUnless(t in self.types, "Type not installed: %s" % t)
 
     def testQuillsAllowedTypes(self):
-        u"""Test the Weblog allowed content types.
+        """Test the Weblog allowed content types.
 
         Only WeblogEntry and WeblogTopic should be available.
         """

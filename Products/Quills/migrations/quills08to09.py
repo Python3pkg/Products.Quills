@@ -27,7 +27,7 @@ from Products.Quills import MetaWeblogAPI
 
 
 class Migration(object):
-    u"""Migrate from 0.8 to 0.9."""
+    """Migrate from 0.8 to 0.9."""
 
     def __init__(self, site, out):
         self.site = site
@@ -36,20 +36,20 @@ class Migration(object):
         self.workflow = getToolByName(site, 'portal_workflow')
 
     def migrate(self):
-        u"""Run migration on site object passed to __init__."""
-        print >> self.out, u"Migrating Quills 0.8 -> 0.9"
+        """Run migration on site object passed to __init__."""
+        print("Migrating Quills 0.8 -> 0.9", file=self.out)
 
         self.catalog = getToolByName(self.site, 'portal_catalog')
         self.qtool = getToolByName(self.site, 'quills_tool')
 
         weblogs = self.catalog(meta_type='Weblog')
-        print >> self.out, u"Migrating %s weblogs..." % len(weblogs)
+        print("Migrating %s weblogs..." % len(weblogs), file=self.out)
         for weblog in weblogs:
             self.migrateWeblog(weblog.getObject())
 
     def migrateWeblog(self, weblog):
-        u"""Migrate a weblog."""
-        print >> self.out, u'Migrating Weblog: %s...' % "/".join(weblog.getPhysicalPath())
+        """Migrate a weblog."""
+        print('Migrating Weblog: %s...' % "/".join(weblog.getPhysicalPath()), file=self.out)
 
         delattr(weblog, 'metaWeblog')
         delattr(weblog, 'blogger')
@@ -71,7 +71,7 @@ class Migration(object):
             self.site.portal_types.constructContent('Folder',
                     weblog, 'attachments', title='Attachments')
 
-        for id, item in weblog._tree.items():
+        for id, item in list(weblog._tree.items()):
             if item.meta_type == 'WeblogEntry':
                 if item.Title():
                     self.migrateWeblogEntry(weblog, item, id)
@@ -85,7 +85,7 @@ class Migration(object):
         weblog.reindexObject()
 
     def moveAttachments(self, weblog, entry):
-        u"""Move anything in the folderish WeblogEntry.
+        """Move anything in the folderish WeblogEntry.
 
         Objects are moved to ${weblog}/attachments/${entry-id}/
         The entry body needs to be rewritten in case any of the attachments are
@@ -113,7 +113,7 @@ class Migration(object):
 
         #self.moveAttachments(weblog, entry)
 
-        print >> self.out, u"Migrating entry: '%s'" % "/".join(entry.getPhysicalPath())
+        print("Migrating entry: '%s'" % "/".join(entry.getPhysicalPath()), file=self.out)
 
         archive = getattr(weblog.aq_inner.aq_explicit, 'archive')
 

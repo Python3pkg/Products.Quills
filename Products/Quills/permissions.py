@@ -1,6 +1,6 @@
 from Products.CMFCore import permissions as cmfpermissions
 import Products.Archetypes.public as atapi
-import config
+from . import config
 
 def _formatPermissionForType(portal_type):
     return "%s: Add %s" % (config.PROJECTNAME, portal_type)

@@ -7,7 +7,7 @@ $Id$
 #    execfile(os.path.join(sys.path[0], "framework.py"))
 
 from Products.CMFCore.utils import getToolByName
-from base import QuillsTestCase
+from .base import QuillsTestCase
 
 class TestWeblog(QuillsTestCase):
 

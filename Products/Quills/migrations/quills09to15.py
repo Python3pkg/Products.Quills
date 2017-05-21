@@ -34,7 +34,7 @@ from Products.Quills import config
 from quills.trackback.interfaces import ITrackbackOutManager
 
 # Standard lib imports
-from StringIO import StringIO
+from io import StringIO
 
 # Zope imports
 from Acquisition import aq_base
@@ -52,7 +52,7 @@ class Migration(object):
     def migrate(self):
         """Run migration on site object passed to __init__.
         """
-        print >> self.out, u"Migrating Quills 0.9 -> 1.5"
+        print("Migrating Quills 0.9 -> 1.5", file=self.out)
         self.removeEntryCategoriesIndex()
         self.removeBloggerAPIFromRPCAuth()
         # Updating of schemas is handled in the installer
@@ -68,7 +68,7 @@ class Migration(object):
         index = 'getEntryCategories'
         if index in self.catalog.indexes():
             self.catalog.manage_delIndex(index)
-            print >> self.out, u"Deleted getEntryCategories index"
+            print("Deleted getEntryCategories index", file=self.out)
 
     def removeBloggerAPIFromRPCAuth(self):
         # Define the auth methods that we need to remove from RPCAuth
@@ -95,8 +95,7 @@ class Migration(object):
     def migrateWeblog(self, weblog):
         """Migrate a weblog.
         """
-        print >> self.out, \
-            u'Migrating Weblog: %s' % "/".join(weblog.getPhysicalPath())
+        print('Migrating Weblog: %s' % "/".join(weblog.getPhysicalPath()), file=self.out)
         self.removeBloggerAPI(weblog)
         self.migrateWeblogTopics(weblog)
         for brain in weblog.getAllEntries():
@@ -168,7 +167,7 @@ class Migration(object):
         uniqueSubjects = {}
         for subject in subjects:
             uniqueSubjects[subject] = 1
-        subjects = uniqueSubjects.keys()
+        subjects = list(uniqueSubjects.keys())
         # See if anything changed
         subjects.sort()
         existingSubjects.sort()
@@ -192,8 +191,8 @@ class Migration(object):
             typestool = getToolByName(weblog, 'portal_types')
             typestool.constructContent('Folder', container=weblog,
                                        id=config.TOPIC_IMAGE_FOLDER_ID,
-                                       title=u'Topic Images')
-            print >> self.out, u"Created topic_images folder in weblog"
+                                       title='Topic Images')
+            print("Created topic_images folder in weblog", file=self.out)
         topic_images = weblog.topic_images
         to_be_deleted = []
         for ob in weblog.objectValues():
@@ -210,6 +209,6 @@ class Migration(object):
                     topic_images.invokeFactory('Image', id=id_title) 
                     newimg = getattr(topic_images, id_title) 
                     newimg.setImage(img)
-                    print >> self.out, u"Copied topic image."
+                    print("Copied topic image.", file=self.out)
                 to_be_deleted.append(ob.getId())
         weblog.manage_delObjects(ids=to_be_deleted)

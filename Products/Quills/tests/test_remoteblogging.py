@@ -4,7 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.PloneTestCase import PloneTestCase
 from Products.PloneTestCase.layer import PloneSite
 from Testing.ZopeTestCase.zopedoctest import ZopeDocFileSuite
-from base import QuillsFunctionalTestCase
+from .base import QuillsFunctionalTestCase
 from quills.remoteblogging.interfaces import IUIDManager
 import doctest
 import unittest

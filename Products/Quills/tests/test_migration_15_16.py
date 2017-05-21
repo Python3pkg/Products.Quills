@@ -4,8 +4,8 @@ $Id: test_migration_09_15.py 29081 2006-08-21 15:26:15Z tim2p $
 
 from Products.CMFCore.utils import getToolByName
 from Products.Quills.migrations import quills15to16
-from base import QuillsTestCase
-from StringIO import StringIO
+from .base import QuillsTestCase
+from io import StringIO
 
 from Products.GenericSetup import EXTENSION, profile_registry
 from Products.CMFPlone.interfaces import IPloneSiteRoot

@@ -1,5 +1,5 @@
 # Standard library imports
-from StringIO import StringIO
+from io import StringIO
 
 # Zope imports
 from transaction import commit
@@ -12,8 +12,8 @@ from quills.app.setuphandlers import addNewDiscussionReplyFormAction
 from quills.app.setuphandlers import delNewDiscussionReplyFormAction
 
 # Local imports
-import config
-import migrations
+from . import config
+from . import migrations
 
 
 def installFinalSteps(context):
@@ -29,14 +29,14 @@ def installFinalSteps(context):
     portal = context.getSite()
     quickinstaller = portal.portal_quickinstaller
     for dependency in config.DEPENDENCIES:
-        print >> out, u"Installing dependency %s:" % dependency
+        print("Installing dependency %s:" % dependency, file=out)
         quickinstaller.installProduct(dependency)
         commit()
     
     automigrate(portal, out)
     updateSchemas(portal, out)
     addNewDiscussionReplyFormAction(portal, out)
-    print >> out, u"Successfully installed %s." % config.PROJECTNAME
+    print("Successfully installed %s." % config.PROJECTNAME, file=out)
     return out.getvalue()
 
 def uninstallFinalSteps(context):
@@ -72,7 +72,7 @@ def updateSchemas(self, out):
                     'WeblogEntry',]
     for contentType in contentTypes:
         name = 'Quills.%s' % contentType
-        print >> out, u"Migrating schema for %s." % name
+        print("Migrating schema for %s." % name, file=out)
         dummyRequest.form[name] = 1
     at.manage_updateSchema(update_all=1, REQUEST=dummyRequest)
 
@@ -88,7 +88,7 @@ def updateDefaultPageTypes(portal, out):
         default_page_types.append('Weblog')
         ptool.site_properties._updateProperty('default_page_types',
                                               default_page_types)
-        msg = u"'Weblog' added to the list of default_page_types."
+        msg = "'Weblog' added to the list of default_page_types."
     else:
-        msg = u"'Weblog' already in the list of default_page_types."
-    print >> out, msg
+        msg = "'Weblog' already in the list of default_page_types."
+    print(msg, file=out)

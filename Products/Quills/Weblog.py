@@ -60,8 +60,8 @@ from quills.app.utilities import BloggifiedCatalogResults
 from quills.app.weblog import WeblogMixin
 
 # Local imports
-import config
-import permissions as perms
+from . import config
+from . import permissions as perms
 
 # This won't work because the `weblog' object is not aq-wrapped, so it's not
 # possible to use invokeFactory.
@@ -81,8 +81,8 @@ WeblogSchema = BaseFolderSchema.copy() + Schema((
               searchable=1,
               accessor='Description',
               widget=TextAreaWidget(
-                     label=_(u'label_weblog_description', default=u'Description'),
-                     description=_(u'help_weblog_description', default=u'A brief description of this weblog. This text will be displayed at the top of the page before any weblog entries.'),
+                     label=_('label_weblog_description', default='Description'),
+                     description=_('help_weblog_description', default='A brief description of this weblog. This text will be displayed at the top of the page before any weblog entries.'),
                      ),
               ),
     ),
@@ -105,13 +105,13 @@ def createSpecialFolders(blog, event):
     if config.CREATE_TOPIC_IMAGES_FOLDERS and not has_topic_images:
         typestool.constructContent('Folder', container=blog,
             id=config.TOPIC_IMAGE_FOLDER_ID,
-            title=u'Topic Images')
+            title='Topic Images')
     has_uploads = hasattr(blog, 'uploads')
     # Create folder to store topic images
     if config.CREATE_UPLOAD_FOLDERS and not has_uploads:
         typestool.constructContent('Folder',container=blog,
             id=config.UPLOAD_FOLDER_ID,
-            title=u'Uploads')
+            title='Uploads')
 
 class Weblog(WeblogMixin, BaseFolder, BrowserDefaultMixin):
     """Weblog object.

@@ -17,7 +17,7 @@ class Migration(object):
     def migrate(self):
         """Run migration on site object passed to __init__.
         """
-        print >> self.out, u"Migrating Quills 1.5 -> 1.6"
+        print("Migrating Quills 1.5 -> 1.6", file=self.out)
         self.removeQuillsTool()
         weblogs = self.catalog(meta_type='Weblog')
         for weblog in weblogs:
@@ -27,16 +27,16 @@ class Migration(object):
         """Remove quills_tool from the portal.
         """
         if self.site.hasObject('quills_tool'):
-            print >> self.out, u"Removing 'quills_tool'."
+            print("Removing 'quills_tool'.", file=self.out)
             self.site.manage_delObjects(ids=['quills_tool',])
         else:
-            print >> self.out, u"'quills_tool' already removed."
+            print("'quills_tool' already removed.", file=self.out)
 
     def migrateWeblog(self, weblog):
         """Migrate a weblog.
         """
-        msg = u'Migrating Weblog: %s'
-        print >> self.out, msg % '/'.join(weblog.getPhysicalPath())
+        msg = 'Migrating Weblog: %s'
+        print(msg % '/'.join(weblog.getPhysicalPath()), file=self.out)
         self.removeRemoteBloggingAttributes(weblog)
         self.migrateWeblogViewConfiguration(weblog)
         self.movePostsToWeblogRoot(weblog)
@@ -73,8 +73,8 @@ class Migration(object):
                 # If it is 'published', publish the entry in its new wf.
                 if old_state == 'published' and cur_state != 'published':
                     wf_tool.doActionFor(entry, 'publish')
-                    msg = u'Republished weblog entry at %s'
-                    print >> self.out, msg % '/'.join(entry.getPhysicalPath())
+                    msg = 'Republished weblog entry at %s'
+                    print(msg % '/'.join(entry.getPhysicalPath()), file=self.out)
 
 
     def movePostsToWeblogRoot(self, weblog):
@@ -89,7 +89,7 @@ class Migration(object):
             if entries:
                 entriesByPath[archive.getObject()] = [ entry.getId for entry in entries ]
 
-        for archive, entries in entriesByPath.items():
+        for archive, entries in list(entriesByPath.items()):
             cut = archive.manage_cutObjects(entries)
             weblog.manage_pasteObjects(cut)
 
@@ -100,13 +100,13 @@ class Migration(object):
     def removeRemoteBloggingAttributes(self, weblog):
         try:
             delattr(weblog, 'metaWeblog')
-            msg = u"Removed 'metaWeblog' from %s."
+            msg = "Removed 'metaWeblog' from %s."
         except AttributeError:
-            msg = u"No 'metaWeblog' found on %s."
-        print >> self.out, msg % '/'.join(weblog.getPhysicalPath())
+            msg = "No 'metaWeblog' found on %s."
+        print(msg % '/'.join(weblog.getPhysicalPath()), file=self.out)
         try:
             delattr(weblog, 'blogger')
-            msg = u"Removed 'blogger' from %s."
+            msg = "Removed 'blogger' from %s."
         except AttributeError:
-            msg = u"No 'blogger' found on %s."
-        print >> self.out, msg % '/'.join(weblog.getPhysicalPath())
+            msg = "No 'blogger' found on %s."
+        print(msg % '/'.join(weblog.getPhysicalPath()), file=self.out)

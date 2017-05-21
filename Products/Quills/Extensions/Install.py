@@ -1,5 +1,5 @@
 # Standard library imports
-from StringIO import StringIO
+from io import StringIO
 
 # quills imports
 from Products.Quills import config
@@ -23,6 +23,6 @@ def uninstall(self):
     """
     out = StringIO()
     setup_gs_profiles(self, (config.MY_GS_PROFILE + ":uninstall",), out)
-    print >> out, u"Successfully uninstalled %s." % config.PROJECTNAME
+    print("Successfully uninstalled %s." % config.PROJECTNAME, file=out)
     return out.getvalue()
 

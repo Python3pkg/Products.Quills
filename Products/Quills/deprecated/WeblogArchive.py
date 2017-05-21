@@ -181,7 +181,7 @@ class WeblogArchive(BaseFolder):
         month = str(date.mm())
 
         if self.archive_type != 'root':
-            print "You can only build paths in a root archive"
+            print("You can only build paths in a root archive")
             # FIXME: raise error (or find the root archive and construct the
             # path from there)
             # FIXME: There is some issue where if the day and the month are the

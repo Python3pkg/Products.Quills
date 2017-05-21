@@ -2,7 +2,7 @@
 $Id$
 """
 
-from base import QuillsTestCase
+from .base import QuillsTestCase
 
 class TestWeblogTopic(QuillsTestCase):
 

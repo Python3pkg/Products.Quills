@@ -109,7 +109,7 @@ class MetaWeblogAPI(SimpleItem):
         if publish:
             try:
                 dest = archive.createPath(effective_date)
-            except Exception, e:
+            except Exception as e:
                 self.plone_log("Cannot create destination: %s" % e)
                 return False
         else:
@@ -117,7 +117,7 @@ class MetaWeblogAPI(SimpleItem):
 
         try:
             dest.invokeFactory(id=id, type_name='WeblogEntry', title=title)
-        except Exception, e:
+        except Exception as e:
             self.plone_log("Cannot create WeblogEntry: %s" % e)
             return False
 
@@ -302,7 +302,7 @@ class MetaWeblogAPI(SimpleItem):
                ,'url':'no url'}
         member = membership.getAuthenticatedMember()
         if member:
-            for key,value in info.items():
+            for key,value in list(info.items()):
                 info[key] = getattr(member,key,None) or value
         return info
 

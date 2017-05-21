@@ -28,13 +28,13 @@ from Products.CMFCore import utils
 from zope.i18nmessageid import MessageFactory
 QuillsMessageFactory = MessageFactory('quills')
 
-import config
-from permissions import initialize as initialize_permissions
+from . import config
+from .permissions import initialize as initialize_permissions
 
 def initialize(context):
 
-    import Weblog
-    import WeblogEntry
+    from . import Weblog
+    from . import WeblogEntry
     Weblog, WeblogEntry # PYFLAKES
 
     content_types, constructors, ftis = process_types(
@@ -42,7 +42,7 @@ def initialize(context):
         config.PROJECTNAME)
 
     permissions = initialize_permissions()
-    allTypes = zip(content_types, constructors)
+    allTypes = list(zip(content_types, constructors))
     for atype, constructor in allTypes:
         kind = "%s: %s" % (config.PROJECTNAME, atype.archetype_name)
         utils.ContentInit(
@@ -56,7 +56,7 @@ def initialize(context):
 # Make it possible to migrate old instances that still have WeblogTopic
 # and WeblogDrafts instances
 import sys
-from deprecated import WeblogTopic, WeblogDrafts, WeblogArchive, MetaWeblogAPI
+from .deprecated import WeblogTopic, WeblogDrafts, WeblogArchive, MetaWeblogAPI
 sys.modules['Products.Quills.WeblogTopic'] = WeblogTopic
 sys.modules['Products.Quills.WeblogDrafts'] = WeblogDrafts
 sys.modules['Products.Quills.WeblogArchive'] = WeblogArchive

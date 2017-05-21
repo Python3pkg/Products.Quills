@@ -4,9 +4,9 @@ $Id$
 
 from Products.CMFCore.utils import getToolByName
 from Products.Quills.migrations import quills09to15
-from base import QuillsTestCase
+from .base import QuillsTestCase
 from quills.trackback.interfaces import ITrackbackOutManager
-from StringIO import StringIO
+from io import StringIO
 
 class TestMigration09_15(QuillsTestCase):
 

@@ -7,7 +7,7 @@ $Id$
 #    execfile(os.path.join(sys.path[0], "framework.py"))
 
 #from Testing import ZopeTestCase
-from base import QuillsTestCase
+from .base import QuillsTestCase
 
 class TestWeblogEntry(QuillsTestCase):
 

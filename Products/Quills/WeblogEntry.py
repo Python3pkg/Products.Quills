@@ -50,8 +50,8 @@ from quills.app.utilities import QuillsMixin
 from quills.app.interfaces import IWeblogEnhancedConfiguration
 
 # Local imports
-from config import PROJECTNAME
-import permissions as perms
+from .config import PROJECTNAME
+from . import permissions as perms
 
 WeblogEntrySchema = BaseSchema.copy() + Schema((
 
@@ -59,8 +59,8 @@ WeblogEntrySchema = BaseSchema.copy() + Schema((
               searchable=1,
               accessor='Description',
               widget=TextAreaWidget(
-                     label=_(u'label_weblogentry_description', default=u'Excerpt'),
-                     description=_(u'help_weblogentry_description', default='A brief introduction for this entry.'),
+                     label=_('label_weblogentry_description', default='Excerpt'),
+                     description=_('help_weblogentry_description', default='A brief introduction for this entry.'),
                      ),
               ),
 
@@ -68,7 +68,7 @@ WeblogEntrySchema = BaseSchema.copy() + Schema((
               searchable=1,
               default_output_type='text/x-html-safe',
               widget=RichWidget(
-                     label=_(u'label_text', default=u'Entry Text'),
+                     label=_('label_text', default='Entry Text'),
                      rows=30,
                      ),
               ),

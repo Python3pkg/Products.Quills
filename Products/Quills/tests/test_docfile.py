@@ -7,9 +7,9 @@ from Products.PloneTestCase import PloneTestCase
 from Products.PloneTestCase.layer import PloneSite
 
 from Products.Quills.config import PROJECTNAME
-from base import QuillsDocTestCase
-from base import QuillsContributorDocTestCase
-from base import QuillsFunctionalTestCase
+from .base import QuillsDocTestCase
+from .base import QuillsContributorDocTestCase
+from .base import QuillsFunctionalTestCase
 
 # Standard options for DocTests
 optionflags = (ELLIPSIS |
